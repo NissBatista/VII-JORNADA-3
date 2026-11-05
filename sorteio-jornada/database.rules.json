@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "sorteio": {
+      ".read": true,
+      "estado": {
+        ".write": "auth != null && auth.token.email == 'ORGANIZADOR@EMAIL.COM'"
+      },
+      "numeros": {
+        ".write": "auth != null && auth.token.email == 'ORGANIZADOR@EMAIL.COM'",
+        "$n": {
+          ".validate": "$n.matches(/^[1-9][0-9]{2}$/) && newData.isString() && newData.val().length <= 40",
+          ".write": "!data.exists() && newData.exists() && root.child('sorteio/estado/status').val() == 'captando' && now <= root.child('sorteio/estado/fim').val()"
+        }
+      }
+    }
+  }
+}
